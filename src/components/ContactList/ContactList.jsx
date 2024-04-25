@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteContact, fetchContacts } from "../../redux/contactsOps";
+import { deleteContact, fetchContacts } from "../../redux/contacts/contactsOps";
 import Contact from "../Contact/Contact";
-import { selectFilteredContacts } from "../../redux/contactsSlice";
-import { changeFilter } from "../../redux/filtersSlice";
-import { selectNameFilter } from "../../redux/filtersSlice"; // Імпорт селектора для отримання значення фільтру
+import { selectFilteredContacts } from "../../redux/contacts/contactsSlice";
+import { changeFilter } from "../../redux/contacts/filtersSlice";
+import { selectNameFilter } from "../../redux/contacts/filtersSlice"; // Імпорт селектора для отримання значення фільтру
 
 import styles from "./ContactList.module.css";
 
