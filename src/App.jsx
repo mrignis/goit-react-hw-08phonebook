@@ -1,24 +1,37 @@
-// App.jsx
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchContacts } from "./redux/contacts/contactsOps";
-import ContactForm from "./components/ContactForm/ContactForm";
-import ContactList from "./components/ContactList/ContactList";
+import React, { useEffect, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { apiRefreshUser } from "./redux/auth/operation";
 
-const App = () => {
+import Navigation from "./components/Navigation/Navigation";
+
+const HomePage = lazy(() => import("./pages/HomePage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegistrationPage = lazy(() => import("./pages/RegistrationPage"));
+const ContactsPage = lazy(() => import("./pages/ContactsPage"));
+
+function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(apiRefreshUser());
   }, [dispatch]);
 
   return (
-    <div className="app">
-      <h1>Contacts App</h1>
-      <ContactForm />
-      <ContactList />
-    </div>
+    <Router>
+      <>
+        <Navigation />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
+            <Route path="/contacts" element={<ContactsPage />} />
+          </Routes>
+        </Suspense>
+      </>
+    </Router>
   );
-};
+}
 
 export default App;

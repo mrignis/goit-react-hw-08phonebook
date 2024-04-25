@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  apiRegister,
-  apiLogin,
-  apiRefreshUser,
-  apiLogout,
-} from "../../redux/auth/operations";
+import { apiRegister, apiLogin, apiRefreshUser, apiLogout } from "./operation";
 
 const INITIAL_STATE = {
   isSignedIn: false,
