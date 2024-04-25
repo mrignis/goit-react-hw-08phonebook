@@ -1,12 +1,12 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { apiRegister } from "../../redux/auth/operation";
 import {
   MAX_CHAR_NAME_VALIDATION,
   MIN_CHAR_PASSWORD_VALIDATION,
 } from "../../utilits/constans";
-import { useDispatch } from "react-redux";
-import { apiRegister } from "../../redux/auth/operation";
 
 const registerUserSchema = Yup.object().shape({
   name: Yup.string()
@@ -17,7 +17,7 @@ const registerUserSchema = Yup.object().shape({
     ),
   email: Yup.string()
     .required("Email address is required!")
-    .email("You must enter valid email address!"),
+    .email("You must enter a valid email address!"),
   password: Yup.string()
     .required("Password is required!")
     .min(
@@ -36,6 +36,7 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
+    console.log("FormData: ", values); // Додаємо лог перед надсиланням на сервер
     dispatch(apiRegister(values));
     actions.resetForm();
   };

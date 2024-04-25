@@ -5,5 +5,7 @@ export const FORM_INITIAL_VALUES = {
 
 export const MIN_CHAR_NAME_VALIDATION = 1;
 
-export const MAX_CHAR_NAME_VALIDATION = 38;
-export const MIN_CHAR_PASSWORD_VALIDATION = 7;
+export const MAX_CHAR_NAME_VALIDATION = 50;
+export const MAX_CHAR_EMAIL_VALIDATION = 100;
+
+export const MIN_CHAR_PASSWORD_VALIDATION = 6;

@@ -1,57 +1,64 @@
-// LoginForm.jsx
-import React, { useState } from "react";
-import * as Yup from "yup"; // Імпорт Yup для визначення схеми логіну
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 import { MIN_CHAR_PASSWORD_VALIDATION } from "../../utilits/constans";
-const LoginForm = ({ onSubmit }) => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+import { useDispatch } from "react-redux";
+import { apiLogin } from "../../redux/auth/operation";
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials((prevCredentials) => ({
-      ...prevCredentials,
-      [name]: value,
-    }));
+const loginUserSchema = Yup.object().shape({
+  email: Yup.string()
+    .required("Email address is required!")
+    .email("You must enter valid email address!"),
+  password: Yup.string()
+    .required("Password is required!")
+    .min(
+      MIN_CHAR_PASSWORD_VALIDATION,
+      `Your password must be greater than ${MIN_CHAR_PASSWORD_VALIDATION} characters!`
+    ),
+});
+
+const FORM_INITIAL_VALUES = {
+  email: "",
+  password: "",
+};
+
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = (values, actions) => {
+    dispatch(apiLogin(values));
+    actions.resetForm();
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(credentials);
-  };
-
-  // Визначення схеми логіну з використанням Yup
-  const loginUserSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("Email address is required!")
-      .email("You must enter a valid email address!"),
-    password: Yup.string()
-      .required("Password is required!")
-      .min(7, "Your password must be at least 7 characters long!"),
-  });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={credentials.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={credentials.password}
-        onChange={handleChange}
-        minLength={7}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <Formik
+        initialValues={FORM_INITIAL_VALUES}
+        validationSchema={loginUserSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <h2>Login user</h2>
+          <label>
+            <span>Email:</span>
+            <br />
+            <Field type="email" name="email" placeholder="Enter your email" />
+            <ErrorMessage component="p" name="email" />
+          </label>{" "}
+          <br />
+          <label>
+            <span>Password:</span>
+            <br />
+            <Field
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+            <ErrorMessage component="p" name="password" />
+          </label>
+          <br />
+          <button type="submit">▶ Login user</button>
+        </Form>
+      </Formik>
+    </div>
   );
 };
 
