@@ -1,7 +1,7 @@
 // LoginForm.jsx
 import React, { useState } from "react";
 import * as Yup from "yup"; // Імпорт Yup для визначення схеми логіну
-
+import { MIN_CHAR_PASSWORD_VALIDATION } from "../../utilits/constans";
 const LoginForm = ({ onSubmit }) => {
   const [credentials, setCredentials] = useState({
     email: "",

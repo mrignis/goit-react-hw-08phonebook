@@ -4,7 +4,7 @@ import { apiRegister, apiLogin, apiRefreshUser, apiLogout } from "./operation";
 const INITIAL_STATE = {
   isSignedIn: false,
   userData: null,
-  token: null,
+  token: localStorage.getItem("token") || null,
   isLoading: false,
   isError: false,
 };
@@ -12,7 +12,13 @@ const INITIAL_STATE = {
 const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    setToken(state, action) {
+      state.token = action.payload;
+      localStorage.setItem("token", action.payload); // Зберегти токен в локальному сховищі
+    },
+    // Додайте інші reducers за потребою
+  },
   extraReducers: (builder) =>
     builder
       .addCase(apiRegister.pending, (state) => {
@@ -75,4 +81,5 @@ const authSlice = createSlice({
       }),
 });
 
+export const { setToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;

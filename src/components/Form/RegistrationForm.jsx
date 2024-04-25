@@ -1,69 +1,83 @@
-// RegistrationForm.jsx
-import React, { useState } from "react";
-import * as Yup from "yup"; // Імпорт Yup для визначення схеми реєстрації
+import React from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+import {
+  MAX_CHAR_NAME_VALIDATION,
+  MIN_CHAR_PASSWORD_VALIDATION,
+} from "../../utilits/constans";
+import { useDispatch } from "react-redux";
+import { apiRegister } from "../../redux/auth/operation";
 
-const RegistrationForm = ({ onSubmit }) => {
-  const [userData, setUserData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+const registerUserSchema = Yup.object().shape({
+  name: Yup.string()
+    .required("Name is required!")
+    .max(
+      MAX_CHAR_NAME_VALIDATION,
+      `Your user name must be less than ${MAX_CHAR_NAME_VALIDATION} characters!`
+    ),
+  email: Yup.string()
+    .required("Email address is required!")
+    .email("You must enter valid email address!"),
+  password: Yup.string()
+    .required("Password is required!")
+    .min(
+      MIN_CHAR_PASSWORD_VALIDATION,
+      `Your password must be greater than ${MIN_CHAR_PASSWORD_VALIDATION} characters!`
+    ),
+});
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+const FORM_INITIAL_VALUES = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+const RegistrationForm = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values, actions) => {
+    dispatch(apiRegister(values));
+    actions.resetForm();
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(userData);
-  };
-
-  // Визначення схеми реєстрації з використанням Yup
-  const registerUserSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Name is required!")
-      .max(50, `Your user name must be less than 50 characters!`),
-    email: Yup.string()
-      .required("Email address is required!")
-      .email("You must enter a valid email address!"),
-    password: Yup.string()
-      .required("Password is required!")
-      .min(7, `Your password must be at least 7 characters long!`),
-  });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={userData.name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={userData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={userData.password}
-        onChange={handleChange}
-        minLength={7}
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div>
+      <Formik
+        initialValues={FORM_INITIAL_VALUES}
+        validationSchema={registerUserSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <h2>Register user</h2>
+          <label>
+            <span>Email:</span>
+            <br />
+            <Field type="email" name="email" placeholder="Enter your email" />
+            <ErrorMessage component="p" name="email" />
+          </label>{" "}
+          <br />
+          <label>
+            <span>Name:</span>
+            <br />
+            <Field type="text" name="name" placeholder="Enter your name" />
+            <ErrorMessage component="p" name="name" />
+          </label>
+          <br />
+          <label>
+            <span>Password:</span>
+            <br />
+            <Field
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+            <ErrorMessage component="p" name="password" />
+          </label>
+          <br />
+          <button type="submit">▶ Create new user</button>
+        </Form>
+      </Formik>
+    </div>
   );
 };
 

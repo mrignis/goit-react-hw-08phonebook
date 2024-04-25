@@ -1,3 +1,4 @@
+// operation.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -17,8 +18,9 @@ export const apiRegister = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await instance.post("/users/signup", formData);
+      console.log("REGISTER data: ", data);
+      // data => { user: { name: "dwda", email: "wdadwd@mail.com"} , token: "some token"}
       setToken(data.token);
-      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

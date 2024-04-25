@@ -1,12 +1,13 @@
-// RegistrationPage.jsx
 import React from "react";
-import RegistrationForm from "../components/Form/RegistrationForm"; // Переконайтеся, що правильний шлях до компонента
+import { useDispatch } from "react-redux"; // Додайте імпорт useDispatch
+import RegistrationForm from "../components/Form/RegistrationForm";
 import { apiRegister } from "../redux/auth/operation";
+
 const RegistrationPage = () => {
-  const handleSubmit = (userData) => {
-    // Виконуємо логіку для реєстрації користувача, наприклад, відправку даних на сервер
-    console.log("User registration data:", userData);
-    // Тут можна викликати функцію для відправлення даних на сервер або інші дії
+  const dispatch = useDispatch();
+  const handleSubmit = (values, actions) => {
+    dispatch(apiRegister(values));
+    actions.resetForm();
   };
 
   return (
