@@ -1,46 +1,50 @@
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
-
 import css from "../App.module.css";
 import { useSelector } from "react-redux";
 import { selectIsSignedIn } from "../redux/auth/selectors";
-
 const getNavLinkClassName = ({ isActive }) =>
-  clsx(css.navLink, {
-    [css.active]: isActive,
-  });
-
+  clsx(css.navLink, { [css.active]: isActive });
 const Layout = ({ children }) => {
   const isSignedIn = useSelector(selectIsSignedIn);
-
   return (
     <div>
+           {" "}
       <header>
+               {" "}
         <nav className={css.nav}>
+                   {" "}
           <NavLink className={getNavLinkClassName} to="/">
-            Home
+                        Home         {" "}
           </NavLink>
+                   {" "}
           {isSignedIn ? (
             <>
+                           {" "}
               <NavLink className={getNavLinkClassName} to="/contacts">
-                Contacts
+                                Contacts             {" "}
               </NavLink>
+                         {" "}
             </>
           ) : (
             <>
+                           {" "}
               <NavLink className={getNavLinkClassName} to="/register">
-                Register
+                                Register             {" "}
               </NavLink>
+                           {" "}
               <NavLink className={getNavLinkClassName} to="/login">
-                Login
+                                Login             {" "}
               </NavLink>
+                         {" "}
             </>
           )}
+                 {" "}
         </nav>
+             {" "}
       </header>
-      <main>{children}</main>
+            <main>{children}</main>   {" "}
     </div>
   );
 };
-
 export default Layout;
