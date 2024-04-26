@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
 import { createSelector } from "reselect"; // Імпорт createSelector з reselect
-import { apiGetContacts, apiAddContact, apiRemoveContact } from "./contactsOps";
+import { apiGetContacts, apiAddContact, apiRemoveContact } from "./operations";
 
 const INITIAL_STATE = {
   contacts: null,

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { apiRemoveContact } from "../../redux/contacts/contactsOps";
+import { apiRemoveContact } from "../../redux/contacts/operations";
 import "./Contact.css";
 
 const Contact = ({ contact }) => {

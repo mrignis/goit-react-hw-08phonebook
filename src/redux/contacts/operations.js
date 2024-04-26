@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
-import instance from "../../redux/auth/operation";
+import instance from "../auth/operations";
 
 const INITIAL_STATE = {
   contacts: null,

@@ -4,7 +4,7 @@ import css from "../App.module.css";
 import { useSelector } from "react-redux";
 import { selectIsSignedIn } from "../redux/auth/selectors";
 import { selectUserData } from "../redux/auth/selectors";
-import { apiLogout } from "../redux/auth/operation";
+import { apiLogout } from "../redux/auth/operations";
 
 import { useDispatch } from "react-redux";
 

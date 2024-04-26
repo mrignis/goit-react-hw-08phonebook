@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { apiRefreshUser } from "./redux/auth/operation";
+import { apiRefreshUser } from "./redux/auth/operations";
 import Loader from "./components/Loader/Loader";
 import Layout from "./components/Layout"; // Перевір, чи правильно вказана шлях до файлу Layout.jsx
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";

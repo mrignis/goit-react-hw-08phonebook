@@ -3,7 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { MIN_CHAR_PASSWORD_VALIDATION } from "../../utilits/constans";
 import { useDispatch } from "react-redux";
-import { apiLogin } from "../../redux/auth/operation";
+import { apiLogin } from "../../redux/auth/operations";
 import "./LoginForm.css"; // Підключаємо CSS файл
 
 const loginUserSchema = Yup.object().shape({

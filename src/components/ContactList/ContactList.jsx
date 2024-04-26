@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   apiRemoveContact,
   apiGetContacts, // Додайте імпорт операції apiGetContacts
-} from "../../redux/contacts/contactsOps";
+} from "../../redux/contacts/operations";
 import Contact from "../Contact/Contact";
 import { selectFilteredContacts } from "../../redux/contacts/selectors";
-import { changeFilter } from "../../redux/contacts/filtersSlice";
-import { selectNameFilter } from "../../redux/contacts/filtersSlice";
+import { changeFilter } from "../../redux/filters/slice";
+import { selectNameFilter } from "../../redux/filters/slice";
 
 import styles from "./ContactList.module.css";
 

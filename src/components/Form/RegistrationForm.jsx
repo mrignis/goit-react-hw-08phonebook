@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { apiRegister } from "../../redux/auth/operation";
+import { apiRegister } from "../../redux/auth/operations";
 import {
   MAX_CHAR_NAME_VALIDATION,
   MIN_CHAR_PASSWORD_VALIDATION,
