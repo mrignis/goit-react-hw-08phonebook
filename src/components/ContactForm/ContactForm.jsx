@@ -7,7 +7,7 @@ import styles from "./ContactForm.module.css";
 
 const addNewContactSchema = Yup.object().shape({
   name: Yup.string().required("Name is required!"),
-  phoneNumber: Yup.string().required("Phone number is required!"),
+  number: Yup.string().required("Phone number is required!"), // Змінено на 'number'
 });
 
 const ContactForm = () => {
@@ -21,7 +21,7 @@ const ContactForm = () => {
   return (
     <div>
       <Formik
-        initialValues={{ name: "", phoneNumber: "" }}
+        initialValues={{ name: "", number: "" }} // Змінено на 'number'
         validationSchema={addNewContactSchema}
         onSubmit={handleSubmit}
       >
@@ -36,12 +36,12 @@ const ContactForm = () => {
 
           <Field
             type="text"
-            name="phoneNumber"
+            name="number" // Змінено на 'number'
             placeholder="Enter phone number"
             className={styles.input}
           />
           <ErrorMessage
-            name="phoneNumber"
+            name="number" // Змінено на 'number'
             component="div"
             className={styles.error}
           />
