@@ -1,0 +1,43 @@
+.section-home {
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-home h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.section-home p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.section-home a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.section-home a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .section-home {
+        padding: 15px;
+    }
+
+    .section-home h2 {
+        font-size: 20px;
+    }
+
+    .section-home p {
+        font-size: 16px;
+    }
+}

@@ -5,7 +5,7 @@ import {
   apiGetContacts, // Додайте імпорт операції apiGetContacts
 } from "../../redux/contacts/contactsOps";
 import Contact from "../Contact/Contact";
-import { selectFilteredContacts } from "../../redux/contacts/contactsSlice";
+import { selectFilteredContacts } from "../../redux/contacts/selectors";
 import { changeFilter } from "../../redux/contacts/filtersSlice";
 import { selectNameFilter } from "../../redux/contacts/filtersSlice";
 

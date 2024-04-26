@@ -1,5 +1,11 @@
-import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
 import instance from "../../redux/auth/operation";
+
+const INITIAL_STATE = {
+  contacts: null,
+  isLoading: false,
+  isError: false,
+};
 
 export const apiGetContacts = createAsyncThunk(
   "contacts/getAll",
@@ -7,7 +13,6 @@ export const apiGetContacts = createAsyncThunk(
     try {
       const { data } = await instance.get("/contacts");
       console.log("data GetContacts: ", data);
-
       return data;
     } catch (e) {
       return thunkApi.rejectWithValue(e.message);
@@ -21,7 +26,6 @@ export const apiAddContact = createAsyncThunk(
     try {
       const { data } = await instance.post("/contacts", formData);
       console.log("data apiAddContact: ", data);
-
       return data;
     } catch (e) {
       return thunkApi.rejectWithValue(e.message);
@@ -35,7 +39,6 @@ export const apiRemoveContact = createAsyncThunk(
     try {
       const { data } = await instance.delete(`/contacts/${contactId}`);
       console.log("data apiRemoveContact: ", data);
-
       return data;
     } catch (e) {
       return thunkApi.rejectWithValue(e.message);

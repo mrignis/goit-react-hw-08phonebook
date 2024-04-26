@@ -7,6 +7,7 @@ import {
   MAX_CHAR_NAME_VALIDATION,
   MIN_CHAR_PASSWORD_VALIDATION,
 } from "../../utilits/constans";
+import "./RegistrationForm.css"; // Підключаємо CSS файл
 
 const registerUserSchema = Yup.object().shape({
   name: Yup.string()
@@ -42,7 +43,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div>
+    <div className="registration-form">
       <Formik
         initialValues={FORM_INITIAL_VALUES}
         validationSchema={registerUserSchema}
