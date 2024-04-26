@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchContacts } from "../redux/contacts/contactsOps";
+import { apiGetContacts } from "../redux/contacts/contactsOps";
 import ContactForm from "../components/ContactForm/ContactForm";
 import ContactList from "../components/ContactList/ContactList";
 
@@ -8,7 +8,7 @@ const ContactsPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(apiGetContacts());
   }, [dispatch]);
 
   return (

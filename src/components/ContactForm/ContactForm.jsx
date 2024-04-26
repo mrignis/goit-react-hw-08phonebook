@@ -1,45 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/contactsOps";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { apiAddContact } from "../../redux/contacts/contactsOps";
 import styles from "./ContactForm.module.css";
 
+const addNewContactSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required!"),
+  phoneNumber: Yup.string().required("Phone number is required!"),
+});
+
 const ContactForm = () => {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!name.trim() || !phoneNumber.trim()) return;
-
-    // Додаємо новий контакт на бекенд
-    dispatch(addContact({ name, phoneNumber }));
-
-    // Очищаємо поля форми
-    setName("");
-    setPhoneNumber("");
+  const handleSubmit = (values, actions) => {
+    dispatch(apiAddContact(values));
+    actions.resetForm();
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <input
-        type="text"
-        placeholder="Enter name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className={styles.input}
-      />
-      <input
-        type="text"
-        placeholder="Enter phone number"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        className={styles.input}
-      />
-      <button type="submit" className={styles.button}>
-        Add Contact
-      </button>
-    </form>
+    <div>
+      <Formik
+        initialValues={{ name: "", phoneNumber: "" }}
+        validationSchema={addNewContactSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form className={styles.formContainer}>
+          <Field
+            type="text"
+            name="name"
+            placeholder="Enter name"
+            className={styles.input}
+          />
+          <ErrorMessage name="name" component="div" className={styles.error} />
+
+          <Field
+            type="text"
+            name="phoneNumber"
+            placeholder="Enter phone number"
+            className={styles.input}
+          />
+          <ErrorMessage
+            name="phoneNumber"
+            component="div"
+            className={styles.error}
+          />
+
+          <button type="submit" className={styles.button}>
+            Add Contact
+          </button>
+        </Form>
+      </Formik>
+    </div>
   );
 };
 

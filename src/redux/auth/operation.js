@@ -1,4 +1,3 @@
-// operation.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -18,9 +17,8 @@ export const apiRegister = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await instance.post("/users/signup", formData);
-      console.log("REGISTER data: ", data);
-      // data => { user: { name: "dwda", email: "wdadwd@mail.com"} , token: "some token"}
       setToken(data.token);
+      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -39,15 +37,16 @@ export const apiLogin = createAsyncThunk(
     }
   }
 );
-
 export const apiLogout = createAsyncThunk(
   "auth/logout",
   async (_, thunkApi) => {
     try {
+      await instance.post("/users/logout");
       clearToken();
-      return null;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+
+      return;
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
@@ -67,3 +66,5 @@ export const apiRefreshUser = createAsyncThunk(
     }
   }
 );
+
+export default instance;

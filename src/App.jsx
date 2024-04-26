@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { apiRefreshUser } from "./redux/auth/operation";
 import Loader from "./components/Loader/Loader";
 import Layout from "./components/Layout"; // Перевір, чи правильно вказана шлях до файлу Layout.jsx
+import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -26,9 +28,30 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/contacts" element={<ContactsPage />} />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute>
+                  <RegistrationPage />
+                </RestrictedRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute>
+                  <LoginPage />
+                </RestrictedRoute>
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute>
+                  <ContactsPage />
+                </PrivateRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
