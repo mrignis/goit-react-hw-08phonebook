@@ -1,5 +1,10 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiRefreshUser } from "./redux/auth/operations";
 import Loader from "./components/Loader/Loader";
@@ -16,41 +21,46 @@ const ContactsPage = lazy(() => import("./pages/ContactsPage"));
 function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector((state) => state.auth.isRefreshing);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   useEffect(() => {
     dispatch(apiRefreshUser());
   }, [dispatch]);
 
+  if (isRefreshing) {
+    return <Loader />;
+  }
+  useEffect(() => {
+    // Перевіряємо, чи є дані про статус авторизації в localStorage
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    // Якщо користувач авторизований, виконуємо дійсну авторизацію
+    if (isLoggedIn) {
+      dispatch(apiRefreshUser());
+    }
+  }, [dispatch]);
   return (
     <Router>
       <Layout>
-        <Suspense fallback={isRefreshing ? <Loader /> : null}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
               path="/register"
-              element={
-                <RestrictedRoute>
-                  <RegistrationPage />
-                </RestrictedRoute>
-              }
+              element={<RestrictedRoute component={RegistrationPage} />}
             />
             <Route
               path="/login"
-              element={
-                <RestrictedRoute>
-                  <LoginPage />
-                </RestrictedRoute>
-              }
+              element={<RestrictedRoute component={LoginPage} />}
             />
-            <Route
-              path="/contacts"
-              element={
-                <PrivateRoute>
-                  <ContactsPage />
-                </PrivateRoute>
-              }
-            />
+            {isLoggedIn ? (
+              <Route
+                path="/contacts"
+                element={<PrivateRoute component={ContactsPage} />}
+              />
+            ) : (
+              <Route path="/contacts" element={<Navigate to="/login" />} />
+            )}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

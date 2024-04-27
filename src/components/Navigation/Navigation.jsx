@@ -1,31 +1,47 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import css from "./Navigation.module.css";
 
-const Navigation = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+import selectors from "../../redux/auth/selectors";
+import routes from "../../Routes/Routes";
 
-  return (
-    <ul className={css.nav}>
-      <li>
-        <NavLink to="/" className={css.navLink} activeclassname={css.active}>
+import styles from "./Navigation.module.css";
+// Компонент главной навигации (меню) приложения
+const Navigation = ({ isAuthenticated }) => (
+  <nav>
+    <ul className={styles.list}>
+      <li className={styles.item}>
+        <NavLink
+          exact
+          to={routes.home}
+          className={styles.link}
+          activeClassName={styles["link--active"]}
+        >
           Home
         </NavLink>
       </li>
-      {isLoggedIn && (
+
+      {isAuthenticated && (
         <li>
           <NavLink
-            to="/contacts"
-            className={css.navLink}
-            activeclassname={css.active}
+            to={routes.contacts}
+            className={styles.link}
+            activeClassName={styles["link--active"]}
           >
             Contacts
           </NavLink>
         </li>
       )}
     </ul>
-  );
+  </nav>
+);
+
+Navigation.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default Navigation;
+const mapStateToProps = (state) => ({
+  isAuthenticated: authSelectors.getIsAuthenticated(state),
+});
+
+export default connect(mapStateToProps, null)(Navigation);

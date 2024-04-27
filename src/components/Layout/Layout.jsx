@@ -1,3 +1,5 @@
+// Layout.jsx
+
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,15 +34,7 @@ const Layout = ({ children }) => {
           <AuthNav />
         )}
       </AppBar>
-      <main className={styles.main}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
-        </Routes>
-        {children}
-      </main>
+      <main className={styles.main}>{children}</main>
     </div>
   );
 };
