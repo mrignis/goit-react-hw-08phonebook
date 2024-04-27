@@ -1,12 +1,16 @@
-// RestrictedRoute.jsx
 import React from "react";
 import { Route, Navigate } from "react-router-dom";
 
-const RestrictedRoute = ({ isLoggedIn, component: Component, ...rest }) => {
+const RestrictedRoute = ({
+  isLoggedIn,
+  component: Component,
+  redirectTo = "/",
+  ...rest
+}) => {
   return isLoggedIn ? (
     <Route {...rest} element={<Component {...rest} />} />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to={redirectTo} />
   );
 };
 
