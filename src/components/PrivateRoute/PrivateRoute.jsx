@@ -1,23 +1,20 @@
-import { useSelector } from "react-redux";
-import { useLocation, Navigate } from "react-router-dom";
-import { selectIsSignedIn } from "../../redux/auth/selectors";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { apiLogout } from "../../redux/auth/operations";
 
-const PrivateRoute = ({ children }) => {
-  const isSignedIn = useSelector(selectIsSignedIn);
-  const location = useLocation();
+const UserMenu = ({ userData }) => {
+  const dispatch = useDispatch();
 
-  // Перевірка наявності роуту "/register"
-  const isRegisterRoute = location.pathname === "/register";
+  const handleLogout = () => {
+    dispatch(apiLogout());
+  };
 
-  // Якщо користувач не увійшов в систему і не на роуті "/register",
-  // перенаправляємо його на сторінку входу
-  if (!isSignedIn && !isRegisterRoute) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // Якщо користувач увійшов в систему або на роуті "/register",
-  // він має доступ до дочірніх компонентів
-  return children;
+  return (
+    <div>
+      {userData && userData.name && <span>Hi, {userData.name}</span>}
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
 };
 
-export default PrivateRoute;
+export default UserMenu;
