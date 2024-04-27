@@ -1,20 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { apiLogout } from "../../redux/auth/operations";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
-const UserMenu = ({ userData }) => {
-  const dispatch = useDispatch();
+const PrivateRoute = ({ element: Component, redirectTo = "/login" }) => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const handleLogout = () => {
-    dispatch(apiLogout());
-  };
-
-  return (
-    <div>
-      {userData && userData.name && <span>Hi, {userData.name}</span>}
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-  );
+  return isLoggedIn ? <Component /> : <Navigate to={redirectTo} replace />;
 };
 
-export default UserMenu;
+export default PrivateRoute;
