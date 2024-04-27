@@ -1,21 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiRegister, apiLogin, apiRefreshUser, apiLogout } from "./operations";
 
+// Функція для завантаження токена з localStorage
+const loadTokenFromStorage = () => {
+  return localStorage.getItem("token") || null;
+};
+
+// Початковий стан
 const INITIAL_STATE = {
   isSignedIn: false,
   userData: null,
-  token: localStorage.getItem("token") || null,
+  token: loadTokenFromStorage(),
   isLoading: false,
   isError: false,
 };
 
+// Створення slice
 const authSlice = createSlice({
   name: "auth",
   initialState: INITIAL_STATE,
   reducers: {
     setToken(state, action) {
       state.token = action.payload;
-      localStorage.setItem("token", action.payload); // Зберегти токен в локальному сховищі
     },
     // Додайте інші reducers за потребою
   },
@@ -30,6 +36,7 @@ const authSlice = createSlice({
         state.isSignedIn = true;
         state.userData = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.token); // Зберегти токен в localStorage
       })
       .addCase(apiRegister.rejected, (state) => {
         state.isLoading = false;
@@ -45,6 +52,7 @@ const authSlice = createSlice({
         state.isSignedIn = true;
         state.userData = action.payload.user;
         state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.token); // Зберегти токен в localStorage
       })
       .addCase(apiLogin.rejected, (state) => {
         state.isLoading = false;
@@ -74,6 +82,7 @@ const authSlice = createSlice({
         state.isSignedIn = false;
         state.userData = null;
         state.token = null;
+        localStorage.removeItem("token"); // Видалити токен з localStorage при виході з системи
       })
       .addCase(apiLogout.rejected, (state) => {
         state.isLoading = false;
@@ -81,5 +90,6 @@ const authSlice = createSlice({
       }),
 });
 
+// Експорт дій та редуктора
 export const { setToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;

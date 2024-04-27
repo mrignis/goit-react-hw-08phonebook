@@ -1,24 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import css from "./Navigation.module.css";
 
 const Navigation = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   return (
-    <nav>
-      <ul>
+    <ul className={css.nav}>
+      <li>
+        <NavLink to="/" className={css.navLink} activeclassname={css.active}>
+          Home
+        </NavLink>
+      </li>
+      {isLoggedIn && (
         <li>
-          <Link to="/">Home</Link>
+          <NavLink
+            to="/contacts"
+            className={css.navLink}
+            activeclassname={css.active}
+          >
+            Contacts
+          </NavLink>
         </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/contacts">Contacts</Link>
-        </li>
-      </ul>
-    </nav>
+      )}
+    </ul>
   );
 };
 

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
-import { createSelector } from "reselect"; // Імпорт createSelector з reselect
 import { apiGetContacts, apiAddContact, apiRemoveContact } from "./operations";
+import { apiLogout } from "../auth/operations";
 
 const INITIAL_STATE = {
   contacts: null,
@@ -31,11 +31,15 @@ export const contactsSlice = createSlice({
         );
         state.isError = false;
       })
+      .addCase(apiLogout.fulfilled, (state) => {
+        state.contacts = null;
+      })
       .addMatcher(
         isAnyOf(
           apiGetContacts.pending,
           apiAddContact.pending,
-          apiRemoveContact.pending
+          apiRemoveContact.pending,
+          apiLogout.pending
         ),
         (state) => {
           state.isLoading = true;
@@ -46,7 +50,8 @@ export const contactsSlice = createSlice({
         isAnyOf(
           apiGetContacts.rejected,
           apiAddContact.rejected,
-          apiRemoveContact.rejected
+          apiRemoveContact.rejected,
+          apiLogout.rejected
         ),
         (state) => {
           state.isLoading = false;

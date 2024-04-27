@@ -1,9 +1,9 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiRefreshUser } from "./redux/auth/operations";
 import Loader from "./components/Loader/Loader";
-import Layout from "./components/Layout"; // Перевір, чи правильно вказана шлях до файлу Layout.jsx
+import Layout from "./components/Layout/Layout";
 import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
@@ -15,6 +15,7 @@ const ContactsPage = lazy(() => import("./pages/ContactsPage"));
 
 function App() {
   const dispatch = useDispatch();
+  const isRefreshing = useSelector((state) => state.auth.isRefreshing);
 
   useEffect(() => {
     dispatch(apiRefreshUser());
@@ -22,10 +23,8 @@ function App() {
 
   return (
     <Router>
-      {" "}
-      {/* Огорнення компонента <App> <Router> */}
       <Layout>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={isRefreshing ? <Loader /> : null}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route

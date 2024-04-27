@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiGetContacts } from "../redux/contacts/operations";
 import ContactForm from "../components/ContactForm/ContactForm";
 import ContactList from "../components/ContactList/ContactList";
+import SearchBox from "../components/SearchBox/SearchBox";
 import {
   selectFilteredContacts,
   selectLoadingStatus,
@@ -23,6 +24,7 @@ const ContactsPage = () => {
     <div className="app">
       <h1>Contacts App</h1>
       <ContactForm />
+      <SearchBox /> {/* Додали компонент SearchBox */}
       <ContactList />
     </div>
   );

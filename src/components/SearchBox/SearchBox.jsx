@@ -1,24 +1,15 @@
-// SearchBox.jsx
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setFilter } from "../../redux/filtersSlice";
-import styles from "./SearchBox.module.css";
+import { changeFilter } from "../../redux/filters/slice"; // замінено імпорт на changeFilter
 
 const SearchBox = () => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    dispatch(setFilter({ term: e.target.value }));
+    dispatch(changeFilter({ term: e.target.value })); // замінено setFilter на changeFilter
   };
 
-  return (
-    <input
-      className={styles.searchBox}
-      type="text"
-      onChange={handleChange}
-      placeholder="Search..."
-    />
-  );
+  return <input type="text" onChange={handleChange} placeholder="Search..." />;
 };
 
 export default SearchBox;

@@ -14,13 +14,13 @@ import { contactsReducer } from "./contacts/slice";
 import filtersReducer from "./filters/slice";
 import { authReducer } from "./auth/slice";
 
-const authPeristConfig = {
-  key: "auth",
+const authPersistConfig = {
+  key: "auth", // Виправлено ім'я ключа
   storage,
   whitelist: ["token"],
 };
 
-const persistedAuthReducer = persistReducer(authPeristConfig, authReducer);
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
