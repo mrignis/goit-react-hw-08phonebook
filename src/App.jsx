@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { apiRefreshUser } from "./redux/auth/operations";
-
+import "./App.css";
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
 const RegistrationPage = React.lazy(() => import("./pages/RegistrationPage"));

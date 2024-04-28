@@ -1,0 +1,22 @@
+.userMenu {
+    display: flex;
+    align-items: center;
+}
+
+.userMenu span {
+    margin-right: 10px;
+}
+
+.userMenu button {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.userMenu button:hover {
+    background-color: #f0f0f0;
+}
