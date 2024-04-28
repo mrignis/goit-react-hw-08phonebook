@@ -25,7 +25,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-
+    <>
       <Layout>
         {isRefreshing ? (
           <Loader />
