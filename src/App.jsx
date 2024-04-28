@@ -5,7 +5,7 @@ import Layout from "./components/Layout/Layout";
 import { apiRefreshUser } from "./redux/auth/operations";
 import { Toaster } from "react-hot-toast"; // Імпорт Toaster з react-hot-toast
 import "./App.css"; // Підключення глобальних стилів
-// Підключення локального модуля CSS
+import styles from "./App.module.css"; // Підключення локального модуля CSS
 
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const LoginPage = React.lazy(() => import("./pages/LoginPage"));
