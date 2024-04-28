@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material"; // Імпорт компонента кнопки з Material-UI
 import clsx from "clsx";
-import css from "./AuthNav.module.css";
+import styles from "./AuthNav.module.css"; // Підключення CSS модуля
 
 export const getNavLinkClassName = ({ isActive }) =>
-  clsx(css.navLink, {
-    [css.active]: isActive,
+  clsx(styles.navLink, {
+    [styles.active]: isActive,
   });
 
 const AuthNav = () => {

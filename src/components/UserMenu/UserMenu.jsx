@@ -4,6 +4,7 @@ import { apiLogout } from "../../redux/auth/operations";
 import { apiRemoveContact } from "../../redux/contacts/operations";
 import { selectUser } from "../../redux/auth/selectors";
 import Button from "@mui/material/Button"; // Імпорт компонента кнопки з Material-UI
+import styles from "./UserMenu.module.css"; // Імпорт стилів
 
 const UserMenu = () => {
   const dispatch = useDispatch();
