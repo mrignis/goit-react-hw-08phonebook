@@ -9,7 +9,7 @@ const SearchBox = () => {
     dispatch(changeFilter({ term: e.target.value })); // замінено setFilter на changeFilter
   };
 
-  return <input type="text" onChange={handleChange} placeholder="Search..." />;
+  return <input type="text" onChange={handleChange} />;
 };
 
 export default SearchBox;

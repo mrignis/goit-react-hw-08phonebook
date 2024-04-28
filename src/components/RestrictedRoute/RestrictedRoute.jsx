@@ -1,13 +1,12 @@
-// RestrictedRoute.jsx
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectIsSignedIn } from "../../redux/auth/selectors"; // Правильний імпорт
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 const RestrictedRoute = ({ component: Component, redirectTo = "/" }) => {
-  const isLoggedIn = useSelector(selectIsSignedIn); // Використовуємо правильний селектор
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  return isLoggedIn ? <Navigate to={redirectTo} replace /> : <Component />;
+  return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
 };
 
 export default RestrictedRoute;

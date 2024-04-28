@@ -11,14 +11,14 @@ import HomePage from "../../pages/HomePage";
 import RegistrationPage from "../../pages/RegistrationPage";
 import LoginPage from "../../pages/LoginPage";
 import ContactsPage from "../../pages/ContactsPage";
-import { selectIsSignedIn, selectUserData } from "../../redux/auth/selectors";
+import { selectIsSignedIn, selectUser } from "../../redux/auth/selectors";
 import { apiLogout } from "../../redux/auth/operations";
 import styles from "./Layout.module.css";
 
 const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const isSignedIn = useSelector(selectIsSignedIn);
-  const userData = useSelector(selectUserData);
+  const userData = useSelector(selectUser);
 
   const handleLogout = () => {
     dispatch(apiLogout());
