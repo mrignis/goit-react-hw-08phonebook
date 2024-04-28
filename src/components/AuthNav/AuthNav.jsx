@@ -27,7 +27,6 @@ const AuthNav = () => {
           </NavLink>
         </li>
       </ul>
-      
     </nav>
   );
 };

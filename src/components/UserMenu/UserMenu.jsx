@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiLogout } from "../../redux/auth/operations";
 import { apiRemoveContact } from "../../redux/contacts/operations";
 
-const UserMenu = ({ userData }) => {
+const UserMenu = () => {
   const dispatch = useDispatch();
+  const userName = useSelector(
+    (state) => state.auth.userData && state.auth.userData.name
+  );
 
   const handleLogout = () => {
     dispatch(apiLogout());
@@ -15,9 +18,8 @@ const UserMenu = ({ userData }) => {
 
   return (
     <div>
-      {userData && userData.name && <span>Hi, {userData.name}</span>}
+      {userName && <span>Hi, {userName}</span>}
       <button onClick={handleLogout}>Logout</button>
-      
     </div>
   );
 };

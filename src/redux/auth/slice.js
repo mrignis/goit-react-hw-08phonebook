@@ -8,9 +8,10 @@ const loadTokenFromStorage = () => {
 
 // Початковий стан
 const INITIAL_STATE = {
-  isSignedIn: false,
-  userData: null,
+  user: null,
   token: loadTokenFromStorage(),
+  isLoggedIn: false,
+  isRefreshing: false,
   isLoading: false,
   isError: false,
 };
@@ -33,8 +34,8 @@ const authSlice = createSlice({
       })
       .addCase(apiRegister.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSignedIn = true;
-        state.userData = action.payload.user;
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem("token", action.payload.token); // Зберегти токен в localStorage
       })
@@ -49,8 +50,8 @@ const authSlice = createSlice({
       })
       .addCase(apiLogin.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSignedIn = true;
-        state.userData = action.payload.user;
+        state.isLoggedIn = true;
+        state.user = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem("token", action.payload.token); // Зберегти токен в localStorage
       })
@@ -60,16 +61,16 @@ const authSlice = createSlice({
       })
 
       .addCase(apiRefreshUser.pending, (state) => {
-        state.isLoading = true;
+        state.isRefreshing = true;
         state.isError = false;
       })
       .addCase(apiRefreshUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSignedIn = true;
-        state.userData = action.payload;
+        state.isRefreshing = false;
+        state.isLoggedIn = true;
+        state.user = action.payload;
       })
       .addCase(apiRefreshUser.rejected, (state) => {
-        state.isLoading = false;
+        state.isRefreshing = false;
         state.isError = true;
       })
 
@@ -79,8 +80,8 @@ const authSlice = createSlice({
       })
       .addCase(apiLogout.fulfilled, (state) => {
         state.isLoading = false;
-        state.isSignedIn = false;
-        state.userData = null;
+        state.isLoggedIn = false;
+        state.user = null;
         state.token = null;
         localStorage.removeItem("token"); // Видалити токен з localStorage при виході з системи
       })
