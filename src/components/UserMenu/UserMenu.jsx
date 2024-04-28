@@ -17,6 +17,7 @@ const UserMenu = ({ userData }) => {
     <div>
       {userData && userData.name && <span>Hi, {userData.name}</span>}
       <button onClick={handleLogout}>Logout</button>
+      
     </div>
   );
 };
