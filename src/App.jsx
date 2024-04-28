@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { apiRefreshUser } from "./redux/auth/operations";
+import { selectIsLoggedIn } from "./redux/auth/selectors"; // Import selectIsLoggedIn
 
 import "./App.css"; // Підключення глобальних стилів
 import Loader from "./components/Loader/Loader";
@@ -18,11 +19,13 @@ import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector((state) => state.auth.isRefreshing);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    dispatch(apiRefreshUser());
-  }, [dispatch]);
+    if (isLoggedIn) {
+      dispatch(apiRefreshUser());
+    }
+  }, [dispatch, isLoggedIn]);
 
   return (
     <>
