@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { apiRefreshUser } from "./redux/auth/operations";
-import { Toaster } from "react-hot-toast"; // Імпорт Toaster з react-hot-toast
+
 import "./App.css"; // Підключення глобальних стилів
 import Loader from "./components/Loader/Loader";
 
@@ -25,8 +25,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Toaster position="top-center" reverseOrder={true} />
+
       <Layout>
         {isRefreshing ? (
           <Loader />
