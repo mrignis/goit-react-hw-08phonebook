@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { apiRefreshUser } from "./redux/auth/operations";
-import { Toaster } from "react-hot-toast"; // Імпорт Toaster з react-hot-toast
+// Імпорт Toaster з react-hot-toast
 import "./App.css"; // Підключення глобальних стилів
 
 const HomePage = React.lazy(() => import("./pages/HomePage"));
