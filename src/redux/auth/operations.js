@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: "https://connections-api.herokuapp.com",
 });
 
@@ -17,10 +17,13 @@ export const apiRegister = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await instance.post("/users/signup", formData);
+      console.log("REGISTER data: ", data);
+
       setToken(data.token);
+
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
@@ -30,22 +33,27 @@ export const apiLogin = createAsyncThunk(
   async (formData, thunkApi) => {
     try {
       const { data } = await instance.post("/users/login", formData);
+      console.log("LOGIN data: ", data);
+
       setToken(data.token);
+
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
+
 export const apiLogout = createAsyncThunk(
   "auth/logout",
-  async (_, thunkAPI) => {
+  async (_, thunkApi) => {
     try {
-      await axios.post("/users/logout");
-      // After a successful logout, remove the token from the HTTP header
-      clearAuthHeader();
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      await instance.post("/users/logout");
+      clearToken();
+
+      return;
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
@@ -57,26 +65,18 @@ export const apiRefreshUser = createAsyncThunk(
       const state = thunkApi.getState();
       const token = state.auth.token;
 
+      if (!token) {
+        return thunkApi.rejectWithValue();
+      }
+
       setToken(token);
       const { data } = await instance.get("/users/current");
+
       return data;
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+    } catch (e) {
+      return thunkApi.rejectWithValue(e.message);
     }
   }
 );
-
-export const loadData = async () => {
-  try {
-    // Виконуємо асинхронний запит до вашого API за допомогою instance
-    const response = await instance.get("/users/me"); // Припустимо, що це URL для отримання даних про користувача
-    // Повертаємо дані користувача, якщо запит успішний
-    return response.data;
-  } catch (error) {
-    // Обробляємо помилку, якщо вона виникає
-    console.error("Failed to load user data:", error);
-    throw error; // Прокидуємо помилку назад для обробки вище
-  }
-};
 
 export default instance;

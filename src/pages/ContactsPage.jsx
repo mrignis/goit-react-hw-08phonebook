@@ -9,17 +9,26 @@ import {
   selectLoadingStatus,
   selectErrorStatus,
 } from "../redux/contacts/selectors";
-import { Link } from "react-router-dom";
+
+import { selectIsLoggedIn } from "../redux/auth/selectors"; // Підключення селектора для перевірки статусу входу
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
+
   const isLoading = useSelector(selectLoadingStatus);
   const isError = useSelector(selectErrorStatus);
   const contacts = useSelector(selectFilteredContacts);
+  const isLoggedIn = useSelector(selectIsLoggedIn); // Перевірка статусу входу
 
   useEffect(() => {
     dispatch(apiGetContacts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push("/login"); // Перенаправлення на сторінку входу, якщо користувач не залогований
+    }
+  }, [isLoggedIn, history]);
 
   return (
     <div className="app">

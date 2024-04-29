@@ -34,14 +34,13 @@ export const apiAddContact = createAsyncThunk(
 );
 
 export const apiRemoveContact = createAsyncThunk(
-  "contacts/remove",
-  async (contactId, thunkApi) => {
+  "contacts/deleteContact",
+  async (id, thunkAPI) => {
     try {
-      const { data } = await instance.delete(`/contacts/${contactId}`);
-      console.log("data apiRemoveContact: ", data);
+      const { data } = await instance.delete(`/contacts/${id}`);
       return data;
     } catch (e) {
-      return thunkApi.rejectWithValue(e.message);
+      return thunkAPI.rejectWithValue(e.message);
     }
   }
 );

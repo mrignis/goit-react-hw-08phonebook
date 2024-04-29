@@ -2,8 +2,10 @@ import React, { useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
+import AppBar from "./components/AppBar/AppBar"; // Підключення AppBar
 import { apiRefreshUser } from "./redux/auth/operations";
 import { selectIsLoggedIn } from "./redux/auth/selectors"; // Import selectIsLoggedIn
+import { selectIsRefreshing } from "./redux/auth/selectors";
 
 import "./App.css"; // Підключення глобальних стилів
 import Loader from "./components/Loader/Loader";
@@ -19,21 +21,13 @@ import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 const App = () => {
   const dispatch = useDispatch();
   const { isRefreshing } = useSelector((state) => state.auth);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn); // Перевірка статусу входу
 
   useEffect(() => {
-    // Перевіряємо наявність токена в localStorage
-    const authToken = localStorage.getItem("authToken");
-    if (authToken) {
-      // Якщо токен знайдено, робимо користувача автентифікованим
-      // І викликаємо операцію оновлення даних користувача
-      dispatch(apiRefreshUser());
-    }
-  }, [dispatch]);
+    dispatch(apiRefreshUser());
+  }, [dispatch]); // dispatch як частина залежностей
 
-  return isRefreshing ? (
-    <b>Refreshing user...</b>
-  ) : (
+  return (
     <>
       <Layout>
         <Suspense fallback={<Loader />}>
