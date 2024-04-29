@@ -13,7 +13,6 @@ const UserMenu = () => {
 
   const handleLogout = () => {
     dispatch(apiLogout());
-    dispatch(apiRemoveContact());
   };
 
   return (
