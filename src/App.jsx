@@ -18,54 +18,56 @@ import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 
 const App = () => {
   const dispatch = useDispatch();
-  const isRefreshing = useSelector((state) => state.auth.isRefreshing);
+  const { isRefreshing } = useSelector((state) => state.auth);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    // Перевіряємо наявність токена в localStorage
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      // Якщо токен знайдено, робимо користувача автентифікованим
+      // І викликаємо операцію оновлення даних користувача
       dispatch(apiRefreshUser());
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch]);
 
-  return (
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
     <>
       <Layout>
-        {isRefreshing ? (
-          <Loader />
-        ) : (
-          <Suspense fallback={<Loader />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route
-                path="/register"
-                element={
-                  <RestrictedRoute
-                    redirectTo="/contacts"
-                    component={<RegistrationPage />}
-                  />
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <RestrictedRoute
-                    redirectTo="/contacts"
-                    component={<LoginPage />}
-                  />
-                }
-              />
-              <Route
-                path="/contacts"
-                element={
-                  <PrivateRoute
-                    redirectTo="/login"
-                    component={<ContactsPage />}
-                  />
-                }
-              />
-            </Routes>
-          </Suspense>
-        )}
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/register"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<RegistrationPage />}
+                />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<ContactsPage />}
+                />
+              }
+            />
+          </Routes>
+        </Suspense>
       </Layout>
     </>
   );

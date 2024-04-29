@@ -39,30 +39,36 @@ export const apiLogin = createAsyncThunk(
 );
 export const apiLogout = createAsyncThunk(
   "auth/logout",
-  async (_, thunkApi) => {
+  async (_, thunkAPI) => {
     try {
-      await instance.post("/users/logout");
-      clearToken();
-
-      return;
-    } catch (e) {
-      return thunkApi.rejectWithValue(e.message);
+      await axios.post("/users/logout");
+      // After a successful logout, remove the token from the HTTP header
+      clearAuthHeader();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 export const apiRefreshUser = createAsyncThunk(
   "auth/refresh",
-  async (_, thunkApi) => {
-    try {
-      const state = thunkApi.getState();
-      const token = state.auth.token;
+  async (_, thunkAPI) => {
+    // Reading the token from the state via getState()
+    const state = thunkAPI.getState();
+    const persistedToken = state.auth.token;
 
-      setToken(token);
-      const { data } = await instance.get("/users/current");
-      return data;
+    if (persistedToken === null) {
+      // If there is no token, exit without performing any request
+      return thunkAPI.rejectWithValue("Unable to fetch user");
+    }
+
+    try {
+      // If there is a token, add it to the HTTP header and perform the request
+      setAuthHeader(persistedToken);
+      const res = await axios.get("/users/me");
+      return res.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
